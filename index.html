@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ankietka</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            min-height: 100vh;
+            height: 100%;
+            background-color: #181818;
+            color: whitesmoke;
+            text-align: center;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        main {
+            border: 3px solid whitesmoke;
+            border-radius: 1rem;
+            margin: 0 auto;
+            min-width: 300px;
+            max-width: 550px;
+        }
+        .info {
+            background-color: #141414;
+            border-radius: 1rem;
+            padding: 0.25em;
+            margin-bottom: 2rem;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-top: 0.5em;
+            margin-bottom: 0;
+            letter-spacing: 1px;
+        }
+        .info p {
+            margin-top: 0;
+            color: gray;
+            letter-spacing: 1px;
+        }
+        .item {
+            margin-bottom: 2rem;
+            background-color: #141414;
+            border-radius: 1rem;
+            padding: 0.25rem 0.25rem 1rem;
+            margin-right: 1rem;
+            margin-left: 1rem;
+        }
+        .item:last-child {
+            margin: 0;
+            display: flex;
+            justify-content: space-evenly;
+            padding: 1rem;
+        }
+        label {
+            display: block;
+            font-size: 1.25rem;
+            margin: 0;
+            margin-bottom: 0.25rem;
+        }
+        input {
+            font-size: 1rem;
+        }
+        input[type="text"] {
+            padding: 0.25rem 0.5rem;
+        }
+        .inline {
+            display: initial;
+        }
+        .mg-left {
+            margin-left: 1.25rem;
+        }
+        .btn {
+            border: 1px solid transparent;
+            border-radius: 0.75rem;
+            padding: 0.5rem 1.5rem;
+            cursor: pointer;
+            transition: all ease-in-out 0.5s;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        .btn:hover,
+        .btn:focus-visible {
+            border-color: whitesmoke;
+            background-color: #181818;
+            color: whitesmoke;
+        }
+        section {
+            visibility: hidden;
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            border: 3px solid whitesmoke;
+            background-color: #181818;
+            transition: all ease-in-out 0.5s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1rem;
+        }
+        section p {
+            font-size: 1.25rem;
+        }
+        .show {
+            visibility: visible;
+            
+        }
+        h2 {
+            position: relative;
+            top: -110px;
+            padding: 0.5rem 0;
+            background-color: #181818;
+        }
+        span {
+            position: absolute;
+            font-size: 3rem;
+            color: whitesmoke;
+            top: 0.1em;
+            right: 0.5em;
+            cursor: pointer;
+            padding: 0.25em;
+            text-shadow: 0 0 10px ghostwhite;
+        }
+        h3 {
+            font-size: 3rem;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <section id="section">
+        <span>x</span>
+        <iframe src="https://giphy.com/embed/gk3R16JhLP8RUka2nD" width="480" height="333" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+        <h3>Siedzenie zarezerwowane</h3>
+        <p id="fln"></p>
+        <p id="dr"></p>
+        <p id="dte"></p>
+        <p id="st"></p>
+    </section>
+    <main>
+        <div class="info">
+            <h1>Rezerwacja miejsca w autokarze</h1>
+            <p id="error">(jako forma powrotu ze studniówki)</p>
+        </div>
+        <form>
+            <div class="item">
+                <label for="firstName">Imię</label>
+                <input type="text" id="firstName" placeholder="Jack" required>
+            </div>
+            <div class="item">
+                <label for="lastName">Nazwisko</label>
+                <input type="text" id="lastName" placeholder="Sparrow" required>
+            </div>
+            <div class="item">
+                <label for="date">Data</label>
+                <input type="text" placeholder="YYYY/MM/DD" id="date" required>
+            </div>
+            <div class="item">
+                <label>Czy trzeźwy:</label>
+                <label class="inline" for="drunk_no">Nie</label>
+                <input type="radio" name="drunk" id="drunk_no" value="false" checked>
+                <label class="inline mg-left" for="drunk_yes">Tak</label>
+                <input type="radio" name="drunk" id="drunk_yes" value="true">
+            </div>
+            <div class="item">
+                <label for="seat">Gdzie chcesz siedzieć</label>
+                <select id="seat">
+                    <option value="fw">Z przodu przy oknie</option>
+                    <option value="fa">Z przodu przy przejściu</option>
+                    <option value="mw">W środku przy oknie</option>
+                    <option value="ma">W środku przy przejściu</option>
+                    <option value="ew">Z tyłu przy oknie</option>
+                    <option value="ea">Z tyłu przy przejściu</option>
+                </select>
+            </div>
+            <div class="item">
+                <label for="data">Zgadzam się na przetwarzanie danych osobowych:</label>
+                <input type="checkbox" id="data">
+            </div>
+            <div class="item">
+                <input type="reset" value="WYCZYŚĆ" class="btn">
+                <input type="submit" value="REZERWUJ" class="btn" id="submit">
+            </div>
+        </form>
+    </main>
+    <script>
+        function isDateValid(dateStr) {
+            return !isNaN(new Date(dateStr));
+        }
+
+        function seatText(s) {
+            switch (s) {
+                case "fw":
+                    return "Siedzisz z przodu przy oknie";
+                case "fa":
+                    return "Siedzisz z przodu przy przejściu";
+                case "mw":
+                    return "Siedzisz w środku przy oknie";
+                case "ma":
+                    return "Siedzisz w środku przy przejściu";
+                case "ew":
+                    return "Siedzisz z tyłu przy oknie";
+                case "ea":
+                    return "Siedzisz z tyłu przy przejściu";
+            }
+        }
+        const span = document.querySelector("span");
+        const section = document.querySelector("#section");
+        const form = document.querySelector("form");
+        const error = document.querySelector("#error");
+        const firstName = document.querySelector("#firstName");
+        const lastName = document.querySelector("#lastName");
+        const date = document.querySelector("#date");
+        const drunk = document.querySelector("input[name=drunk]");
+        const seat = document.querySelector("#seat");
+        const data = document.querySelector("#data");
+
+        const fln = document.querySelector("#fln");
+        const dr = document.querySelector("#dr");
+        const dte = document.querySelector("#dte");
+        const st = document.querySelector("#st");
+        
+        span.addEventListener("click", () => {
+            section.classList.toggle("show");
+        })
+
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            if(isDateValid(date.value)) {
+                error.style.color = "gray";
+                error.textContent = "(jako forma powrotu ze studniówki)";
+                
+                section.classList.toggle("show");
+
+                fln.textContent = data.checked ? (firstName.value + " " + lastName.value) : "Brak zgody na przetwarzenie danych";
+                dr.textContent = Boolean(drunk.checked) ? "Przewidywany stan: nietrzeźwy" : "Przewidywany stan: trzeźwy";
+                dte.textContent = "Do zabrania dnia: "+ date.value;
+                st.textContent = seatText(seat.value);
+
+                firstName.value = lastName.value = date.value = "";
+            }
+            else {
+                error.textContent = "Błędnie podana data!";
+                error.style.color = "red";
+            }
+        })
+    </script>
+</body>
+</html>
